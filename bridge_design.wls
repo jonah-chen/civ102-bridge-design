@@ -18,8 +18,9 @@
 (*(* P4 is scheer failure of glue with no fold *)*)
 (*P4[t1_,t2_,a_,b_]:=5.116426869563426B[t1,t2,a,b] i[t1,t2,a,b]/qg[t1,t2,a,b];*)
 (*(* P5 is buckling of the compressive flange between webs *)*)
-(*P5[t1_,t2_,a_,b_]:=2*35067.43691727392i[t1,t2,a,b](t2/b)^2/a;*)
+(*P5[t1_,t2_,a_,b_, s_]:=2*300.109114i[t1,t2,a,b](t2/(b-2s))^2/a;*)
 (*(*P6 is not included because the failure regions it is relevent does not exist *)*)
+(*P6[t1_,t2_,a_,b_, s_]:=63.7732i[t1,t2,a,b](t2/(s-t1))^2/a;*)
 (*(* P7 is the buckling of the webs due to flexual stresses *)*)
 (*P7[t1_,t2_,a_,b_]:=450.1591937t1^2/a^3 i[t1,t2,a,b];*)
 (*(* No additional diaphrams for P8 *)*)
@@ -42,12 +43,12 @@
 
 (* ::Input:: *)
 (*(* Calculating the failure force based on the geometry of the section *)*)
-(*Manipulate[Plot[{Min[{P2[t1,t2,a,b], P3[t1,t2,a,b],P4[t1,t2,a,b],P5[t1,t2,a,b],P7[t1,t2,a,b], P8[t1,t2,a,b]}], v[t1,t2,a,b]/(813*1016*1.27)*1000},{a,1,200}, PlotLegends->{"Failure Load(kN)", "% of material used x10"} , AxesLabel->{"height(mm)"}],{t1,1.27, 5*1.27,1.27},{t2,1.27,5*1.27,1.27}]*)
+(*Manipulate[Plot[{Min[{P2[t1,t2,a,b], P3[t1,t2,a,b],P4[t1,t2,a,b],P5[t1,t2,a,b,s],P6[t1,t2,a,b,s],P7[t1,t2,a,b], P8[t1,t2,a,b]}], v[t1,t2,a,b]/(813*1016*1.27)*1000},{a,10,200}, PlotLegends->{"Failure Load(kN)", "% of material used x10"} , AxesLabel->{"height(mm)"}],{t1,1.27, 5*1.27,1.27},{t2,1.27,5*1.27,1.27},{s,2.5,50}]*)
 
 
 (* ::Input:: *)
 (*(* Calculating the failure force for all failure modes based on the geometry of the section *)*)
-(*Manipulate[Plot[{P2[t1,t2,a,b], P3[t1,t2,a,b],P4[t1,t2,a,b],P5[t1,t2,a,b],P7[t1,t2,a,b], P8[t1,t2,a,b],v[t1,t2,a,b]/(813*1016*1.27)*1000},{a,1,300}, PlotRange->{{1,200},{0,4000}},PlotLegends->{"Compressive Failure of Walls","Scheer Failuer of Walls","Glue Failure","B. of compressive flange","B. of webs due to flexual stresses","Scheer Buckling of webs","% of material used x10"}, AxesLabel->{"height(mm)"}],{t1,1.27, 5*1.27,1.27},{t2,1.27,5*1.27,1.27}]*)
+(*Manipulate[Plot[{P2[t1,t2,a,b], P3[t1,t2,a,b],P4[t1,t2,a,b],P5[t1,t2,a,b,s],P6[t1,t2,a,b,s],P7[t1,t2,a,b], P8[t1,t2,a,b],v[t1,t2,a,b]/(813*1016*1.27)*1000},{a,1,300}, PlotRange->{{1,200},{0,4000}},PlotLegends->{"Compressive Failure of Walls","Scheer Failuer of Walls","Glue Failure","B. of compressive flange","B. of tips of compressive flange","B. of webs due to flexual stresses","Scheer Buckling of webs","% of material used x10"}, AxesLabel->{"height(mm)"}],{t1,1.27, 5*1.27,1.27},{t2,1.27,5*1.27,1.27},{s,2.5,50}]*)
 
 
 (* ::Input:: *)
@@ -57,33 +58,23 @@
 
 
 (* ::Input:: *)
-(*(* Proposed design where the board is cut into half. Carries 2110N *)*)
-(*t1=2*1.27;*)
-(*t2=1.27;*)
-(*a=85;*)
-(*N[P2[t1,t2,a,b]]*)
-(*N[P3[t1,t2,a,b]]*)
-(*N[P4[t1,t2,a,b]]*)
-(*N[P5[t1,t2,a,b]]*)
-(*N[P7[t1,t2,a,b]]*)
-(*N[P8[t1,t2,a,b]]*)
-(*N[Pc[1.27,1.27*1.5,30]]*)
-(*N[vmax-v[t1,t2,a,b]-vc[1.27,1.27*1.5,30]]*)
-
-
-(* ::Input:: *)
 (*(* Proposed design that is standard. 100x76. Carries 1806N *)*)
 (*t1=2*1.27;*)
 (*t2=1.27;*)
+(*s=20;*)
 (*a=76;*)
 (*N[P2[t1,t2,a,b]]*)
 (*N[P3[t1,t2,a,b]]*)
 (*N[P4[t1,t2,a,b]]*)
-(*N[P5[t1,t2,a,b]]*)
+(*N[P5[t1,t2,a,b,s]]*)
+(*N[P6[t1,t2,a,b,s]]*)
 (*N[P7[t1,t2,a,b]]*)
 (*N[P8[t1,t2,a,b]]*)
 (*N[Pc[1.27,1.27*2,30]]*)
 (*N[vmax-v[t1,t2,a,b]-vc[1.27,1.27*2,30]]*)
+(*N[i[t1,t2,a,b]]*)
+(*N[q[t1,t2,a,b]]*)
+(*N[qg[t1,t2,a,b]]*)
 
 
 (* ::Input:: *)
